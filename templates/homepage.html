@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+
+
+    <!-- slick-caresol -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+        integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+        integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+        crossorigin="anonymous" />
+
+    <!-- js -->
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+
+    <title> At your service</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            overflow: hidden;
+        }
+
+
+        .btn-grad {background-image: linear-gradient(to right, #ff6e7f 0%, #bfe9ff  51%, #ff6e7f  100%)}
+         .btn-grad {
+            margin: 10px;
+            padding: 15px 45px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;            
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+          }
+
+          .btn-grad:hover {
+            background-position: right center; /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+          }
+         
+    </style>
+</head>
+
+<body>
+    <div class="left-sidebar">
+        <div class="toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+
+    <div class="toggle-menu">
+        <ul>
+            <li><a href="#">Workers</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
+    <div class="wrapper">
+        <header>
+            <div class="logo">
+                <img src="{{url_for('static', filename='service.png')}}" alt="">
+            </div>
+            <div class="menu">
+                <ul>
+                    <li>
+                    <button type="button" class="btn btn-secondary"
+                        onclick="document.getElementById('id01').style.display='block'"
+                        style="width:auto;">Login</button>
+                    <div id="id01" class="modal">
+
+                        <form class="modal-content animate" action="/action_page.php" method="post">
+                            <div class="imgcontainer">
+                                <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                                    title="Close Modal">&times;</span>
+                            </div>
+
+                            <div class="container">
+                                <label for="uname"><b>Email</b></label><br>
+                                <input type="text" placeholder="Enter Email" name="email" required><br>
+
+                                <label for="psw"><b>Password</b></label><br>
+                                <input type="password" placeholder="Enter Password" name="psw" required><br><br>
+
+                                <button type="submit" class="btn btn-secondary" style="width: 6rem;">Login</button>
+                                <button type="button" class="btn btn-secondary" style="width: 6rem;"
+                                    onclick="document.getElementById('id01').style.display='none'"
+                                    class="cancelbtn">Cancel</button><br><br>
+
+                                <label>
+                                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                                </label>
+                                <span class="psw">Forgot <a href="#">password?</a></span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="btn-group flex-wrap">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Register
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <button class="dropdown-item" type="button"><a href="{{url_for('userReg')}}" style="text-decoration: none;">User</a></button>
+                            <button class="dropdown-item" type="button"><a href="{{url_for('freelancerReg')}}" style="text-decoration: none;">Tradesmen</a></button>
+                        </div>
+                    </div>
+                </li>
+                </ul>
+            </div>
+        </header>
+
+        <form method="POST">
+            <div class="slide">
+                <div class="row">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+              <div class="alert alert-primary" role="alert">
+          {{ message }}
+        </div>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+                    <div class="text col-6">
+                        <h2>Looking for tradesmen <br> with experience?</h2>
+
+                        <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 30rem;height: 15rem;">
+                            <div class="card-body">
+                                    
+                                <div class="form-group">
+                                    <select name="worker" class="form-control" id="exampleFormControlSelect2">
+                                        <option selected disabled>Whom do you want to contact?</option>
+                                        <option value="Mechanic">Mechanic</option>
+                                        <option value="Technician">Technician</option>
+                                        <option value="Plumber">Plumber</option>
+                                        <option value="Builder">Builder</option>
+                                        <option value="Carpenter">Carpenter</option>
+                                      </select>
+                                    </div>
+                                <div class="form-group">
+                                <select name="place" class="form-control" id="exampleFormControlSelect2">
+                                    <option selected disabled>Where do you live?</option>
+                                    <option value="Chennai">Chennai</option>
+                                    <option value="Coimbatore">Coimbatore</option>
+                                    <option value="Erode">Erode</option>
+                                    <option value="Salem">Salem</option>
+                                    <option value="Kanyakumari">Kanyakumari</option>
+                                  </select>
+                                </div>
+                                <p id="demo"></p>
+                                <button type="submit" class="btn-grad">Look now!</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="img col-6">
+                        <img src="{{url_for('static', filename='worker.png')}}" alt="">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+            integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+            crossorigin="anonymous"></script>
+        <!-- jquery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+            crossorigin="anonymous"></script>
+
+        <!-- anime -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+        <script>
+            $(function () {
+
+                $(".toggle").on('click', function () {
+                    $(this).toggleClass("close");
+                    $(".toggle-menu").toggleClass("open");
+
+                    if ($(".toggle").hasClass("close")) {
+                        anime({
+                            targets: '.toggle.close span',
+                            duration: 1500,
+                            rotate: [0, 45],
+                            delay: 500
+                        });
+                    } else {
+                        anime({
+                            targets: '.toggle span',
+                            duration: 1500,
+                            rotate: [45, 0],
+                            delay: 500
+                        });
+
+                    }
+
+                    if ($(".toggle-menu").hasClass("open")) {
+                        anime({
+                            targets: '.toggle-menu li a',
+                            duration: 1500,
+                            rotate: [-250, 0],
+                            opacity: [0, 1],
+                            delay: anime.stagger(150, { start: 100 })
+                        });
+                    }
+                });
+
+
+                // intro Animation
+                anime({
+                    targets: '.left-sidebar',
+                    duration: 1500,
+                    scaleY: [0, 1],
+                    easing: 'linear'
+                });
+
+                anime({
+                    targets: '.logo img',
+                    translateY: [50, 0],
+                    opacity: [0, 1],
+                    delay: 500,
+                    easing: 'easeInOutExpo'
+                });
+
+                anime({
+                    targets: '.search img',
+                    translateY: [50, 0],
+                    opacity: [0, 1],
+                    delay: 1100,
+                    easing: 'easeInOutExpo'
+                });
+
+                //login
+                var modal = document.getElementById('id01');
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            });
+
+
+        </script>
+</body>
+
+</html>
